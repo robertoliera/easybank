@@ -1,7 +1,10 @@
 .header {
-  display: flex;
   padding: 1em 0;
   justify-content: space-between;
+  position: fixed;
+  z-index: 3;
+  width: 100%;
+  background: white;
 }
 .header__logo {
   align-self: center;
@@ -39,6 +42,9 @@
   background-size: 345px, cover;
   margin-bottom: 1.2em;
 }
+.hero__imageSrc {
+  display: none;
+}
 @media screen and (min-width: 768px) {
   .hero {
     text-align: left;
@@ -48,22 +54,17 @@
     box-sizing: border-box;
   }
   .hero__content {
-    border: 1px solid red;
     display: grid;
     align-items: center;
     min-height: 550px;
     grid-template-areas: "description image";
-    grid-template-columns: 480px 1fr;
+    grid-template-columns: 370px 1fr;
     position: relative;
-  }
-  .hero__description {
-    border: 1px solid green;
   }
   .hero__image {
     grid-area: image;
     min-height: inherit;
     position: absolute;
-    border: 1px solid purple;
     width: 500px;
     left: 0;
     top: 0;
@@ -73,10 +74,13 @@
   }
 }
 @media screen and (min-width: 1024px) {
+  .hero__imageSrc {
+    display: block;
+    position: relative;
+    top: -150px;
+  }
   .hero__image {
-    background: url("../images/image-mockups.png") right -100px bottom no-repeat;
-    background-size: 100%;
-    width: 730px;
+    background: none;
     left: 150px;
     right: 0;
     top: 0;
@@ -86,6 +90,8 @@
 .menu {
   list-style: none;
   display: none;
+  padding: 0;
+  margin: 0;
 }
 .menu__button {
   width: 40px;
@@ -97,9 +103,45 @@
   color: var(--grayBlue);
   padding: 0 0.8em;
 }
+.menu__checkbox {
+  display: none;
+}
+.menu__checkbox:checked ~ .menu__button {
+  background: url("../images/icon-close.svg") no-repeat center;
+}
+.menu__checkbox:checked ~ .menu {
+  background: linear-gradient(to bottom, var(--darkBlue) 0%, transparent 90%);
+  display: block;
+  position: absolute;
+  top: 100%;
+  padding: 1em;
+  left: 0;
+  right: 0;
+  height: 100vh;
+}
+.menu__checkbox:checked ~ .menu .menu__item:first-child a {
+  padding-top: 2em;
+  border-radius: 0.5em 0.5em 0 0;
+}
+.menu__checkbox:checked ~ .menu .menu__item:last-child a {
+  padding-bottom: 2em;
+  border-radius: 0 0 0.5em 0.5em;
+}
+.menu__checkbox:checked ~ .menu a {
+  background: white;
+  padding: 0.8em 1em;
+  color: var(--darkBlue);
+  font-size: 1.1em;
+  display: block;
+  text-align: center;
+}
 @media screen and (min-width: 1024px) {
   .menu {
     display: flex;
+  }
+  .menu__item {
+    display: flex;
+    align-items: center;
   }
   .menu__button {
     display: none;
@@ -282,9 +324,10 @@ body {
 
 .wrapper {
   padding: 0 var(--wrapperSpace);
-  max-width: 1115px;
+  max-width: calc(1115px + var(--wrapperSpace));
   margin: auto;
   width: 100%;
+  box-sizing: border-box;
 }
 
 .title__h1 {
